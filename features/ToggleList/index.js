@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckBox from "../../components/CheckBox";
 import PropTypes from "prop-types";
 import { Wrapper, Container } from "./styled";
 
 export const useToggleList = (initialState = []) => {
-  const [list, setList] = useState(initialState);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    setList(initialState);
+  }, [initialState]);
 
   const toggle = (text) => {
     const newList = Object.assign([], list);
@@ -23,6 +27,7 @@ export const useToggleList = (initialState = []) => {
 
 const ToggleList = ({ selections, selectedItems, onToggle }) => {
   const { toggle } = useToggleList(selectedItems);
+
   return (
     <Container>
       {selections?.map((value, index) => {

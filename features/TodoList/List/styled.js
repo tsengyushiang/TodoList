@@ -4,4 +4,5 @@ export const List = styled.div`
   overflow: scroll;
   display: flex;
   flex-direction: column;
+  flex: 1;
 `;

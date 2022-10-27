@@ -1,3 +1,5 @@
+import produce from "immer";
+
 import {
   FILTER_ACTION_SEARCH,
   FILTER_ACTION_SEARCH_MODECHANGE,
@@ -14,55 +16,27 @@ const initialState = {
   displayMode: FILTER_MODE_SHOWITEM,
 };
 
-const changeSelected = (filter, selectedIndex) => {
-  return {
-    ...filter,
-    selectedIndex,
-  };
-};
-
-const search = (filter, searchKeyword) => {
-  return {
-    ...filter,
-    searchKeyword,
-  };
-};
-
-const displayModeToggle = (filter) => {
-  const displayMode =
-    filter.displayMode === FILTER_MODE_HIGHLIGHT
-      ? FILTER_MODE_SHOWITEM
-      : FILTER_MODE_HIGHLIGHT;
-
-  return {
-    ...filter,
-    displayMode,
-  };
-};
-
-const setSelectedTagList = (filter, selectedTagList) => {
-  return {
-    ...filter,
-    selectedTagList,
-  };
-};
-
-const todoFilter = (
-  state = initialState,
-  { type, index, keyword, tagList }
-) => {
-  switch (type) {
-    case FILTER_ACTION_SELECT:
-      return changeSelected(state, index);
-    case FILTER_ACTION_SET_SELECTED_TAGLIST:
-      return setSelectedTagList(state, tagList);
-    case FILTER_ACTION_SEARCH:
-      return search(state, keyword);
-    case FILTER_ACTION_SEARCH_MODECHANGE:
-      return displayModeToggle(state);
-    default:
-      return state;
-  }
-};
+const todoFilter = (state = initialState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case FILTER_ACTION_SELECT:
+        draft.selectedIndex = action.index;
+        break;
+      case FILTER_ACTION_SET_SELECTED_TAGLIST:
+        draft.selectedTagList = action.tagList;
+        break;
+      case FILTER_ACTION_SEARCH:
+        draft.searchKeyword = action.keyword;
+        break;
+      case FILTER_ACTION_SEARCH_MODECHANGE:
+        draft.displayMode =
+          state.displayMode === FILTER_MODE_HIGHLIGHT
+            ? FILTER_MODE_SHOWITEM
+            : FILTER_MODE_HIGHLIGHT;
+        break;
+      default:
+        break;
+    }
+  });
 
 export default todoFilter;

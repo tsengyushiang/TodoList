@@ -6,12 +6,12 @@ import { Wrapper } from "./styled";
 import TextInput from "../../TextInput";
 import { DeleteButton } from "../../../styles/button";
 
-const AddTodo = ({ onCancel, tags }) => {
+const AddTodo = ({ onCancel, tagIds }) => {
   const dispatch = useDispatch();
   let [text, setText] = useState("");
 
   const handleSubmit = (text) => {
-    dispatch(addTodo({ text, tags }));
+    dispatch(addTodo({ text, tagIds }));
     setText("");
     onCancel();
   };

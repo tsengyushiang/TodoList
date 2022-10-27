@@ -5,11 +5,12 @@ import {
   LIST_ACTION_REMOVE,
 } from "../../constants/todoList";
 
-export const addTodo = ({ text, tagIds }) => {
+export const addTodo = ({ text, tagIds, id }) => {
   return {
     type: LIST_ACTION_ADD,
     text,
     tagIds,
+    id,
   };
 };
 

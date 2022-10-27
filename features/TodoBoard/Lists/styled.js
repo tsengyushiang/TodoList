@@ -6,7 +6,6 @@ import {
 
 export const ListWrapper = styled.div`
   display: flex;
-  overflow: scroll;
   flex-direction: column;
   background-color: gainsboro;
   margin: 5px;

@@ -11,7 +11,10 @@ const LanguageSwitch = () => {
   }, [router]);
 
   const handleChange = () => {
-    window.location.href = `/${select.current.value}${router.asPath}`;
+    // window.location.href = `/${select.current.value}${router.asPath}`;
+    const tag = select.current.value;
+    const { asPath } = router;
+    router.push(asPath, asPath, { locale: tag });
   };
 
   return (

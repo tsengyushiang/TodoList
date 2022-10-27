@@ -11,7 +11,7 @@ const RemoveTodo = ({ id }) => {
   };
   return (
     <IdAndDeleteDIv>
-      <div>#{id}</div>
+      <div>{id}</div>
       <DeleteButton onClick={onDelete} />
     </IdAndDeleteDIv>
   );

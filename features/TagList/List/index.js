@@ -9,7 +9,7 @@ const TagList = ({}) => {
 
   return (
     <List>
-      {tags?.map((tag, index) => {
+      {[...tags]?.map((tag, index) => {
         const { text, color, id } = tag;
         return (
           <TagItem

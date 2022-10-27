@@ -1,75 +1,68 @@
+import produce from "immer";
+
 import {
-  LIST_ACTION_ADD,
+  LIST_ACTION_ADD_SUCCESS,
   LIST_ACTION_EDIT,
   LIST_ACTION_SETTAG,
   LIST_ACTION_REMOVE,
 } from "../../constants/todoList";
 
-const generateNewTodoItem = (() => {
-  let idCounter = 0;
-  return ({ text, tagIds, id = undefined }) => {
-    const newId = (idCounter++).toString();
-    return { text, tagIds, id: id ? id : newId };
-  };
-})();
+import { EXCEPTION_ADD_DUPLICATE_TAG_MSG } from "../../constants/exception";
 
 const initialState = {
   todos: [],
 };
 
-const addTodo = (todoList, newItem) => {
-  const { todos } = todoList;
-  return {
-    todos: [newItem, ...todos],
-  };
+const add = ({ todos }, { text, tagIds, id }) => {
+  if (todos.find((todo) => todo.id === id)) {
+    console.warn(EXCEPTION_ADD_DUPLICATE_TAG_MSG);
+    return [...todos];
+  }
+  return [{ text, tagIds, id }, ...todos];
 };
 
-const setTags = (todoList, id, tagIds) => {
-  const { todos } = todoList;
-  const newTodos = todos?.map((todo) => {
+const setTags = ({ todos }, { id, tagIds }) => {
+  return todos?.map((todo) => {
     if (todo.id === id) {
       return { ...todo, tagIds };
     }
     return todo;
   });
-  return {
-    todos: newTodos,
-  };
 };
 
-const removeTodo = (todoList, id) => {
-  const { todos } = todoList;
-  const afterRemoveTodos = todos.filter((todo) => {
+const remove = ({ todos }, { id }) => {
+  return todos.filter((todo) => {
     return todo.id !== id;
   });
-  return { todos: afterRemoveTodos };
 };
 
-const editTodo = (todoList, text, id) => {
-  const { todos } = todoList;
-  return {
-    todos: todos?.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, text, id };
-      }
-      return todo;
-    }),
-  };
+const edit = ({ todos }, { text, id }) => {
+  return todos?.map((todo) => {
+    if (todo.id === id) {
+      return { ...todo, text, id };
+    }
+    return todo;
+  });
 };
 
-const todoList = (state = initialState, { type, text, id, tagIds }) => {
-  switch (type) {
-    case LIST_ACTION_ADD:
-      return addTodo(state, generateNewTodoItem({ text, tagIds }));
-    case LIST_ACTION_SETTAG:
-      return setTags(state, id, tagIds);
-    case LIST_ACTION_EDIT:
-      return editTodo(state, text, id);
-    case LIST_ACTION_REMOVE:
-      return removeTodo(state, id);
-    default:
-      return state;
-  }
-};
+const todoList = (state = initialState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case LIST_ACTION_ADD_SUCCESS:
+        draft.todos = add(state, action);
+        break;
+      case LIST_ACTION_SETTAG:
+        draft.todos = setTags(state, action);
+        break;
+      case LIST_ACTION_EDIT:
+        draft.todos = edit(state, action);
+        break;
+      case LIST_ACTION_REMOVE:
+        draft.todos = remove(state, action);
+        break;
+      default:
+        break;
+    }
+  });
 
 export default todoList;

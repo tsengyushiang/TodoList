@@ -1,7 +1,7 @@
 import {
   FILTER_MODE_HIGHLIGHT,
   FILTER_MODE_SHOWITEM,
-} from "../../../../constants/todoFilter";
+} from "../../../constants/todoFilter";
 
 const isVisibleByTag = (keyTags) => {
   return (todo) => {
