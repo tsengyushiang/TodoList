@@ -40,8 +40,8 @@ const removeTodo = ({ todos }, { id }) => {
   });
 };
 const removeRenderOrder = ({ renderOrder }, { id }) => {
-  return renderOrder.filter((todo) => {
-    return todo.id !== id;
+  return renderOrder.filter((orderId) => {
+    return orderId !== id;
   });
 };
 
