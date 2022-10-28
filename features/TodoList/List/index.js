@@ -8,13 +8,7 @@ import { List } from "./styled";
 import useValidTagsFilter from "../../../hooks/useValidTagsFilter";
 import { Droppable } from "react-beautiful-dnd-next";
 
-const TodoList = ({
-  todos,
-  isHighlight,
-  draggableIdBase,
-  droppableId,
-  renderOrder,
-}) => {
+const TodoList = ({ todos, isHighlight, draggableIdBase, droppableId }) => {
   const { getValidTagsObject } = useValidTagsFilter();
   const dispatch = useDispatch();
 
@@ -31,8 +25,8 @@ const TodoList = ({
           // style={getListStyle(snapshot.isDraggingOver)}
           {...provided.droppableProps}
         >
-          {renderOrder.map((id, index) => {
-            const { text, tagIds } = todos.find((todo) => todo.id == id);
+          {todos.map((todo, index) => {
+            const { text, id } = todo;
             return (
               <Draggable
                 key={id}
@@ -51,7 +45,7 @@ const TodoList = ({
                   >
                     <Item
                       text={text}
-                      tags={getValidTagsObject(tagIds)}
+                      tags={getValidTagsObject(todo.tagIds)}
                       id={id}
                       onSelect={onSelect}
                       isHightlight={isHighlight[index]}

@@ -5,20 +5,24 @@ import {
   LIST_ACTION_EDIT,
   LIST_ACTION_SETTAG,
   LIST_ACTION_REMOVE,
+  LIST_ACTION_DRAG,
 } from "../../constants/todoList";
 
 import { EXCEPTION_ADD_DUPLICATE_TAG_MSG } from "../../constants/exception";
 
 const initialState = {
+  renderOrder: [],
   todos: [],
 };
 
-const add = ({ todos }, { text, tagIds, id }) => {
-  if (todos.find((todo) => todo.id === id)) {
-    console.warn(EXCEPTION_ADD_DUPLICATE_TAG_MSG);
-    return [...todos];
-  }
+const checkIdDuplicate = ({ todos }, { id }) => {
+  return todos.find((todo) => todo.id === id);
+};
+const addTodo = ({ todos }, { text, tagIds, id }) => {
   return [{ text, tagIds, id }, ...todos];
+};
+const addRenderOrder = ({ renderOrder }, { id }) => {
+  return [...renderOrder, id];
 };
 
 const setTags = ({ todos }, { id, tagIds }) => {
@@ -30,8 +34,13 @@ const setTags = ({ todos }, { id, tagIds }) => {
   });
 };
 
-const remove = ({ todos }, { id }) => {
+const removeTodo = ({ todos }, { id }) => {
   return todos.filter((todo) => {
+    return todo.id !== id;
+  });
+};
+const removeRenderOrder = ({ renderOrder }, { id }) => {
+  return renderOrder.filter((todo) => {
     return todo.id !== id;
   });
 };
@@ -45,11 +54,28 @@ const edit = ({ todos }, { text, id }) => {
   });
 };
 
+const drag = ({ renderOrder }, { id, frontId, backId }) => {
+  console.log(`drag ${id} between ${frontId} ${backId}`);
+  const newRenderOrder = [...renderOrder];
+  newRenderOrder.splice(newRenderOrder.indexOf(id), 1);
+  if (backId) {
+    newRenderOrder.splice(newRenderOrder.indexOf(backId), 0, id);
+  } else if (frontId) {
+    newRenderOrder.splice(newRenderOrder.indexOf(frontId) + 1, 0, id);
+  } else {
+    console.warn("drag failed target location not defined");
+  }
+
+  return newRenderOrder;
+};
+
 const todoList = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case LIST_ACTION_ADD_SUCCESS:
-        draft.todos = add(state, action);
+        if (checkIdDuplicate(state, action)) break;
+        draft.todos = addTodo(state, action);
+        draft.renderOrder = addRenderOrder(state, action);
         break;
       case LIST_ACTION_SETTAG:
         draft.todos = setTags(state, action);
@@ -58,7 +84,11 @@ const todoList = (state = initialState, action) =>
         draft.todos = edit(state, action);
         break;
       case LIST_ACTION_REMOVE:
-        draft.todos = remove(state, action);
+        draft.todos = removeTodo(state, action);
+        draft.renderOrder = removeRenderOrder(state, action);
+        break;
+      case LIST_ACTION_DRAG:
+        draft.renderOrder = drag(state, action);
         break;
       default:
         break;

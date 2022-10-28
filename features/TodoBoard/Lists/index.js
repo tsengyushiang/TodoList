@@ -1,7 +1,7 @@
 import TodoListWithEditUI from "../../TodoList/TodoListWithEditUI";
 import { ListWrapper, ListContainer } from "./styled";
 
-const TodoLists = ({ tags, todos, isHighlight, onSelectTags, renderOrder }) => {
+const TodoLists = ({ tags, todos, isHighlight, onSelectTags }) => {
   const onTagChange = (index) => {
     return (tags) => {
       onSelectTags({ index, tags });
@@ -16,7 +16,6 @@ const TodoLists = ({ tags, todos, isHighlight, onSelectTags, renderOrder }) => {
         for (let i = 0; i < index; i++) {
           draggableIdBase += todos[i].length;
         }
-        if (!renderOrder[index]) return null;
         return (
           <ListWrapper key={index}>
             <TodoListWithEditUI
@@ -25,7 +24,6 @@ const TodoLists = ({ tags, todos, isHighlight, onSelectTags, renderOrder }) => {
               tags={tags}
               onSelectTags={onTagChange(index)}
               todos={todos[index]}
-              renderOrder={renderOrder[index]}
               isHighlight={isHighlight[index]}
             />
           </ListWrapper>

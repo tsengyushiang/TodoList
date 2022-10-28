@@ -40,7 +40,6 @@ const TodoListWithEditUI = ({
   isHighlight,
   draggableIdBase,
   droppableId,
-  renderOrder,
 }) => {
   const [isAdding, setAdding] = useState(false);
   const { getValidTagsId, getValidTagsObject } = useValidTagsFilter();
@@ -62,7 +61,6 @@ const TodoListWithEditUI = ({
         isHighlight={isHighlight}
         draggableIdBase={draggableIdBase}
         droppableId={droppableId}
-        renderOrder={renderOrder}
       />
     </>
   );
