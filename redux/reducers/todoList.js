@@ -22,7 +22,7 @@ const addTodo = ({ todos }, { text, tagIds, id }) => {
   return [{ text, tagIds, id }, ...todos];
 };
 const addRenderOrder = ({ renderOrder }, { id }) => {
-  return [...renderOrder, id];
+  return [id, ...renderOrder];
 };
 
 const setTags = ({ todos }, { id, tagIds }) => {
