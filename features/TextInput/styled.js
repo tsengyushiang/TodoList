@@ -5,6 +5,8 @@ export const Wrapper = styled.div`
   text-align: center;
   display: flex;
   overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
   flex-direction: row;
 `;
 

@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const Board = styled.div`
   display: flex;
   overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
   flex-direction: column;
   top: 50%;
   left: 50%;

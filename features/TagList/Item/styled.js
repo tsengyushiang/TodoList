@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 export const Tag = styled.div`
   display: flex;
   overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
   flex-direction: row;
 
   flex-shrink: 0;

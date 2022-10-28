@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 export const TextBox = styled.div`
   display: flex;
   overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
   flex-direction: row;
   border: solid gray 1px;
   border-radius: 20px;

@@ -7,6 +7,7 @@ import {
 export const FloatRightBox = styled.div`
   display: flex;
   overflow: scroll;
+  overflow-x: hidden;
   flex-direction: column;
   box-shadow: -4px 0 8px #bfbfbf;
   position: fixed;

@@ -5,6 +5,8 @@ export const Container = styled.div`
   background-color: #f5f5f5;
   padding: 5px;
   border-radius: 10px;
+  max-height: 300px;
+  overflow: scroll;
 `;
 
 export const Wrapper = styled.div`

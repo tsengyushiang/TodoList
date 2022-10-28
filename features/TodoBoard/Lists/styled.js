@@ -29,6 +29,7 @@ export const ListWrapper = styled.div`
 export const ListContainer = styled.div`
   display: flex;
   overflow: scroll;
+  overflow-y: hidden;
   flex-direction: row;
   height: 95%;
   border-radius: 10px;
